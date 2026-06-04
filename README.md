@@ -1,4 +1,4 @@
-# Claude Code Skills Pack
+# Project Factory
 
 两层架构的 Claude Code 技能包：**Project Foundation** 管项目从 0 到 1，**Skills Pack** 管日常开发从 1 到 N。
 
@@ -41,8 +41,8 @@ Day 1..N — 日常开发 (Skills Pack):
 
 ```bash
 # 1. 克隆技能包
-git clone https://github.com/Leo-Ayh-Oday/claude-skills-pack.git
-cp -r claude-skills-pack/skills/* ~/.claude/skills/
+git clone https://github.com/Leo-Ayh-Oday/project-factory.git
+cp -r project-factory/skills/* ~/.claude/skills/
 
 # 2. 安装可选依赖
 pip install "markitdown[all]"        # /markitdown — 任意格式转 Markdown
