@@ -41,7 +41,7 @@ Day 1..N — 日常开发 (Skills Pack):
 
 ```bash
 # 1. 克隆技能包
-git clone https://github.com/YOUR_USERNAME/claude-skills-pack.git
+git clone https://github.com/Leo-Ayh-Oday/claude-skills-pack.git
 cp -r claude-skills-pack/skills/* ~/.claude/skills/
 
 # 2. 安装可选依赖
