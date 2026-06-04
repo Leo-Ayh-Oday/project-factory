@@ -1,0 +1,24 @@
+{
+  "description": "OpenWolf auto-hooks — activated in settings.json. All hooks read stdin JSON from Claude Code.",
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "script": "scripts/track-edit.ps1",
+        "description": "Reads stdin JSON, extracts file_path, appends to .wolf/.edit-log.jsonl. Tracked per session for /openwolf check."
+      }
+    ],
+    "Stop": [
+      {
+        "script": "scripts/session-check.ps1",
+        "description": "Reads .wolf/.edit-log.jsonl, flags files edited ≥2 times, prints summary. Cleans up log for next session."
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "script": "scripts/detect-correction.ps1",
+        "description": "Reads stdin JSON, regex-matches user prompt for correction patterns (不对|错了|不要|wrong|broken|fix). Flags cerebrum Do-Not-Repeat."
+      }
+    ]
+  }
+}
