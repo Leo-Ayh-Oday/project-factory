@@ -2,6 +2,11 @@
 
 两层架构的 Claude Code 技能包：**Project Foundation** 管项目从 0 到 1，**Skills Pack** 管日常开发从 1 到 N。
 
+[![Stars](https://img.shields.io/github/stars/Leo-Ayh-Oday/project-factory?style=social)](https://github.com/Leo-Ayh-Oday/project-factory/stargazers)
+[![License](https://img.shields.io/badge/license-MIT-purple)](LICENSE)
+[![Skills](https://img.shields.io/badge/skills-12-blue)](skills/)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen)](CONTRIBUTING_CN.md)
+
 ## 架构总览
 
 ```
@@ -63,6 +68,8 @@ pip install "markitdown[all]"        # /markitdown — 任意格式转 Markdown
 | `/init-project` | 读计划 → 搜 GitHub 同类项目 → 生成项目骨架 | 新项目启动时 |
 | `/setup-rules` | 扫描项目 → 搜真实坑位 → 生成项目规则 | 骨架生成后、方向变更时 |
 | `/openwolf` | anatomy 同步、bug 记录、cerebrum 学习 | 开发过程中持续运行 |
+| `/scaffold` | 脚手架代码生成 | 项目骨架就绪后 |
+| `/handoff` | 项目/任务交接文档生成 | 换人接手/阶段性总结 |
 
 ### 工作流
 
@@ -87,6 +94,7 @@ pip install "markitdown[all]"        # /markitdown — 任意格式转 Markdown
 | 输入 | `/screenshot-to-spec` | 截图 → 结构化需求文档 | 转成需求 / screenshot to spec |
 | 分析 | `/learn-from-bugs` | 从 buglog 挖掘重复错误模式 | 分析bug / bug patterns |
 | 分析 | `/estimate` | 评估需求改动范围和风险等级 | 评估 / estimate / 复杂度 |
+| 管理 | `/health-check` | 项目健康度全面检查 | 健康检查 / 项目体检 / health check |
 | 输出 | `/obsidian` | AI 产出 → Obsidian 永久笔记 + 多层分类 | 存到obsidian / 归档 |
 | 输出 | `/daily-digest` | 生成可分享的结构化日报 | 日报 / 收工 / wrap up |
 
@@ -149,11 +157,16 @@ Foundation 负责「落地 + 管理」    Skills Pack 负责「想清楚 + 执�
 
 ## 前置依赖
 
-| 依赖 | 用途 | 安装 |
-|------|------|------|
-| [OpenWolf](https://github.com/openwolf/openwolf) | `.wolf/` 上下文管理 | Foundation 核心依赖 |
-| [markitdown](https://github.com/microsoft/markitdown) | 文件格式转换 | `pip install "markitdown[all]"` |
-| [Obsidian](https://obsidian.md) | 知识库笔记 | 仅 `/obsidian` 需要 |
+本技能包部分 Skill 依赖以下开源工具。未安装时对应 Skill 会自动提示配置方法，不影响其他 Skill 使用。
+
+| 依赖 | 被哪些 Skill 使用 | 安装/获取 |
+|------|-------------------|-----------|
+| [OpenWolf](https://github.com/openwolf/openwolf) | `/openwolf` `/init-project` `/setup-rules` | `npm i -g openwolf` |
+| [Obsidian](https://obsidian.md) | `/obsidian` | [obsidian.md](https://obsidian.md) 下载 |
+| [markitdown](https://github.com/microsoft/markitdown) | `/markitdown` | `pip install "markitdown[all]"` |
+| [Superpowers](https://github.com/anthropics/superpowers) | 工作流联动（brainstorm/plan/execute） | Claude Code 内置 |
+
+> **不需要全部安装。** 只用你需要的 Skill，装对应的依赖即可。
 
 ## 目录结构
 
@@ -167,14 +180,24 @@ Foundation 负责「落地 + 管理」    Skills Pack 负责「想清楚 + 执�
 │   ├── SKILL.md
 │   ├── hooks/hooks.json
 │   └── scripts/buglog.py
+├── scaffold/SKILL.md            ← Foundation: 脚手架生成
+├── handoff/SKILL.md             ← Foundation: 交接文档
 │
 ├── markitdown/SKILL.md          ← Skills Pack: 格式转换
 ├── screenshot-to-spec/SKILL.md  ← Skills Pack: 截图转需求
 ├── learn-from-bugs/SKILL.md     ← Skills Pack: bug 模式挖掘
 ├── estimate/SKILL.md            ← Skills Pack: 风险评估
+├── health-check/SKILL.md        ← Skills Pack: 健康检查
 ├── obsidian/SKILL.md            ← Skills Pack: 知识归档
 └── daily-digest/SKILL.md        ← Skills Pack: 日报生成
 ```
+
+## 参与贡献
+
+欢迎提 PR！详见 [CONTRIBUTING_CN.md](CONTRIBUTING_CN.md)。
+
+本项目遵循 [Contributor Covenant](CODE_OF_CONDUCT.md) 行为准则。
+安全漏洞请查看 [SECURITY_CN.md](SECURITY_CN.md) 了解报告流程。
 
 ## License
 
