@@ -1,0 +1,81 @@
+{
+  "name": "typescript",
+  "description": "TypeScript 最佳实践规则",
+  "version": "1.0.0",
+  "rules": [
+    {
+      "id": "no-any-type",
+      "type": "grep",
+      "pattern": ":\\s*any\\b",
+      "files": "*.{ts,tsx}",
+      "severity": "warning",
+      "message": "避免使用 any 类型，使用 unknown 或具体类型",
+      "autofix": false
+    },
+    {
+      "id": "no-ts-ignore",
+      "type": "grep",
+      "pattern": "@ts-ignore",
+      "files": "*.{ts,tsx}",
+      "severity": "warning",
+      "message": "避免 @ts-ignore，使用 @ts-expect-error 并附加注释说明原因",
+      "autofix": {
+        "search": "@ts-ignore",
+        "replace": "@ts-expect-error TODO: 说明忽略原因"
+      }
+    },
+    {
+      "id": "use-const-not-let",
+      "type": "grep",
+      "pattern": "^\\s*let\\s+\\w+\\s*=",
+      "files": "*.{ts,tsx}",
+      "severity": "suggestion",
+      "message": "用 const 替代不重新赋值的 let",
+      "autofix": false
+    },
+    {
+      "id": "no-enum",
+      "type": "grep",
+      "pattern": "\\benum\\s+\\w+",
+      "files": "*.{ts,tsx}",
+      "severity": "suggestion",
+      "message": "优先使用 const object 或 union type 替代 TypeScript enum",
+      "autofix": false
+    },
+    {
+      "id": "no-non-null-assertion",
+      "type": "grep",
+      "pattern": "\\w!\\.",
+      "files": "*.{ts,tsx}",
+      "severity": "warning",
+      "message": "避免非空断言 !，使用可选链 ?. 或显式 null check",
+      "autofix": false
+    },
+    {
+      "id": "use-optional-chain",
+      "type": "grep",
+      "pattern": "\\w+\\s*&&\\s*\\w+\\.\\w+\\.\\w+",
+      "files": "*.{ts,tsx}",
+      "severity": "suggestion",
+      "message": "使用可选链 ?. 替代多级 && 判断",
+      "autofix": false
+    },
+    {
+      "id": "no-mutable-exports",
+      "type": "grep",
+      "pattern": "export\\s+(let|var)\\s+",
+      "files": "*.{ts,tsx}",
+      "severity": "warning",
+      "message": "禁止导出可变绑定，使用 const 导出",
+      "autofix": false
+    },
+    {
+      "id": "function-under-50-lines",
+      "type": "line-count",
+      "max": 50,
+      "files": "*.{ts,tsx}",
+      "severity": "suggestion",
+      "message": "函数/方法超过 50 行，建议拆分为更小的函数"
+    }
+  ]
+}

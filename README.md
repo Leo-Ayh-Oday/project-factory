@@ -5,7 +5,7 @@
 [![Stars](https://img.shields.io/github/stars/Leo-Ayh-Oday/project-factory?style=social)](https://github.com/Leo-Ayh-Oday/project-factory/stargazers)
 [![Version](https://img.shields.io/badge/version-1.0.0-blue)](https://github.com/Leo-Ayh-Oday/project-factory/releases)
 [![License](https://img.shields.io/badge/license-MIT-purple)](LICENSE)
-[![Skills](https://img.shields.io/badge/skills-12-blue)](skills/)
+[![Skills](https://img.shields.io/badge/skills-13-blue)](skills/)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen)](CONTRIBUTING_CN.md)
 
 **Topics:** `claude-code` `skills-pack` `project-factory` `openwolf` `ai-tools` `developer-tools` `claude-skills` `project-management` `knowledge-base` `obsidian` `markitdown`
@@ -71,6 +71,7 @@ pip install "markitdown[all]"        # /markitdown — 任意格式转 Markdown
 | `/init-project` | 读计划 → 搜 GitHub 同类项目 → 生成项目骨架 | 新项目启动时 |
 | `/setup-rules` | 扫描项目 → 搜真实坑位 → 生成项目规则 | 骨架生成后、方向变更时 |
 | `/openwolf` | anatomy 同步、bug 记录、cerebrum 学习 | 开发过程中持续运行 |
+| `/rules-audit` | 确定性规则扫描 + 自动修复 + 评分门禁（46条/3预设） | 提交前/CI门禁 |
 | `/scaffold` | 脚手架代码生成 | 项目骨架就绪后 |
 | `/handoff` | 项目/任务交接文档生成 | 换人接手/阶段性总结 |
 
@@ -165,6 +166,7 @@ Foundation 负责「落地 + 管理」    Skills Pack 负责「想清楚 + 执�
 | 依赖 | 被哪些 Skill 使用 | 安装/获取 |
 |------|-------------------|-----------|
 | [OpenWolf](https://github.com/openwolf/openwolf) | `/openwolf` `/init-project` `/setup-rules` | `npm i -g openwolf` |
+| [ripgrep](https://github.com/BurntSushi/ripgrep) | `/rules-audit` | `bun install -g ripgrep` |
 | [Obsidian](https://obsidian.md) | `/obsidian` | [obsidian.md](https://obsidian.md) 下载 |
 | [markitdown](https://github.com/microsoft/markitdown) | `/markitdown` | `pip install "markitdown[all]"` |
 | [Superpowers](https://github.com/anthropics/superpowers) | 工作流联动（brainstorm/plan/execute） | Claude Code 内置 |
@@ -183,6 +185,10 @@ Foundation 负责「落地 + 管理」    Skills Pack 负责「想清楚 + 执�
 │   ├── SKILL.md
 │   ├── hooks/hooks.json
 │   └── scripts/buglog.py
+├── rules-audit/                 ← Foundation: 合规审计
+│   ├── SKILL.md
+│   ├── presets/
+│   └── references/
 ├── scaffold/SKILL.md            ← Foundation: 脚手架生成
 ├── handoff/SKILL.md             ← Foundation: 交接文档
 │

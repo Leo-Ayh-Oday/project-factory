@@ -1,0 +1,129 @@
+{
+  "name": "web-common",
+  "description": "通用 Web 项目规则：HTML/CSS/JS 安全、性能、可访问性",
+  "version": "1.0.0",
+  "rules": [
+    {
+      "id": "no-console-log",
+      "type": "grep",
+      "pattern": "console\\.(log|debug|info|warn)\\(",
+      "files": "*.{ts,tsx,js,jsx}",
+      "severity": "fatal",
+      "message": "禁止在生产代码中使用 console.log，使用结构化日志",
+      "autofix": {
+        "search": "\\s*console\\.(log|debug|info)\\([^)]*\\);?\\s*\\n",
+        "replace": ""
+      }
+    },
+    {
+      "id": "no-hardcoded-secrets",
+      "type": "grep",
+      "pattern": "(api[_-]?key|secret|token|password|passwd)\\s*[:=]\\s*['\"][\\w\\-]{8,}['\"]",
+      "files": "*.{ts,tsx,js,jsx,py,go,rs,java,php,rb}",
+      "severity": "fatal",
+      "message": "禁止硬编码密钥/password/token，使用环境变量或密钥管理器",
+      "autofix": false
+    },
+    {
+      "id": "no-innerHTML",
+      "type": "grep",
+      "pattern": "(\\.innerHTML|dangerouslySetInnerHTML)",
+      "files": "*.{ts,tsx,js,jsx}",
+      "severity": "fatal",
+      "message": "禁止使用 innerHTML/dangerouslySetInnerHTML，存在 XSS 风险",
+      "autofix": false
+    },
+    {
+      "id": "no-outline-none",
+      "type": "grep",
+      "pattern": "outline:\\s*none",
+      "files": "*.css",
+      "severity": "fatal",
+      "message": "禁止裸 outline: none，应使用 :focus-visible 替换默认 outline",
+      "autofix": {
+        "search": "outline:\\s*none;?",
+        "replace": "outline: 2px solid transparent;"
+      }
+    },
+    {
+      "id": "no-transition-all",
+      "type": "grep",
+      "pattern": "transition:\\s*all\\b",
+      "files": "*.css",
+      "severity": "fatal",
+      "message": "禁止 transition: all，明确指定要过渡的属性",
+      "autofix": {
+        "search": "transition:\\s*all\\s+([\\d.]+s)\\s+(ease[\\w-]*)",
+        "replace": "transition: transform $1 $2, opacity $1 $2"
+      }
+    },
+    {
+      "id": "no-bare-zindex",
+      "type": "grep",
+      "pattern": "z-index:\\s*\\d+",
+      "files": "*.css",
+      "severity": "warning",
+      "message": "禁止裸 z-index 值，使用 CSS 变量（如 var(--z-modal)）",
+      "autofix": {
+        "map": {
+          "9999": "var(--z-debug)",
+          "999": "var(--z-notification)",
+          "500": "var(--z-modal)",
+          "200": "var(--z-dropdown)",
+          "100": "var(--z-sticky)",
+          "50": "var(--z-raised)",
+          "10": "var(--z-overlay)"
+        }
+      }
+    },
+    {
+      "id": "use-oklch-not-hex",
+      "type": "grep",
+      "pattern": "(color|background|border-color|fill|stroke):\\s*#[0-9a-fA-F]{3,8}",
+      "files": "*.css",
+      "severity": "warning",
+      "message": "使用 OKLCH 而非 HEX 颜色值",
+      "autofix": false
+    },
+    {
+      "id": "must-have-font-display",
+      "type": "grep-inverse",
+      "pattern": "font-display:\\s*swap",
+      "files": "*.css",
+      "severity": "warning",
+      "message": "@font-face 必须设置 font-display: swap 避免 FOIT"
+    },
+    {
+      "id": "must-have-reduced-motion",
+      "type": "grep-inverse",
+      "pattern": "prefers-reduced-motion",
+      "files": "*.css",
+      "severity": "fatal",
+      "message": "必须为 prefers-reduced-motion: reduce 提供降级方案"
+    },
+    {
+      "id": "img-must-have-dimensions",
+      "type": "grep",
+      "pattern": "<img(?!.*(?:width|height|loading|lazy))[^>]*>",
+      "files": "*.{html,tsx,jsx}",
+      "severity": "suggestion",
+      "message": "img 标签应设置 width/height 防止 CLS"
+    },
+    {
+      "id": "file-under-800-lines",
+      "type": "line-count",
+      "max": 800,
+      "files": "*.{ts,tsx,js,jsx,css,py,go,rs}",
+      "severity": "warning",
+      "message": "{file} 有 {count} 行，超过 800 行上限，建议拆分"
+    },
+    {
+      "id": "no-single-box-shadow",
+      "type": "grep",
+      "pattern": "box-shadow:\\s*[^,;]*(?:$|;)",
+      "files": "*.css",
+      "severity": "suggestion",
+      "message": "单层 box-shadow 显得扁平，考虑使用多层阴影增加深度感"
+    }
+  ]
+}

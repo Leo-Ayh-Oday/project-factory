@@ -1,0 +1,244 @@
+{
+  "name": "motion",
+  "description": "动效设计约束规则：GSAP/CSS 动画质量红线",
+  "version": "1.0.0",
+  "rules": [
+    {
+      "id": "no-transition-all",
+      "type": "grep",
+      "pattern": "transition:\\s*all\\b",
+      "files": "*.css",
+      "severity": "fatal",
+      "message": "禁止 transition: all — 动效应该明确指定变换属性",
+      "autofix": {
+        "search": "transition:\\s*all\\s+([\\d.]+s)\\s+(ease[\\w-]*)",
+        "replace": "transition: transform $1 $2, opacity $1 $2"
+      }
+    },
+    {
+      "id": "no-animate-width-height",
+      "type": "grep",
+      "pattern": "(transition|animation)[^;]*\\b(width|height|top|left|right|bottom|margin|padding)\\b",
+      "files": "*.css",
+      "severity": "fatal",
+      "message": "禁止动画 width/height/top/left — 只动画 transform 和 opacity",
+      "autofix": false
+    },
+    {
+      "id": "no-bare-ease",
+      "type": "grep",
+      "pattern": "(transition|animation)[^;]*\\bease\\b(?![-\\w])",
+      "files": "*.css",
+      "severity": "warning",
+      "message": "禁止使用裸 ease，必须指定具体缓动函数",
+      "autofix": {
+        "search": "\\bease\\b(?![-\\w])",
+        "replace": "var(--ease-out-expo, cubic-bezier(0.16, 1, 0.3, 1))"
+      }
+    },
+    {
+      "id": "no-linear-easing",
+      "type": "grep",
+      "pattern": "(transition|animation)[^;]*\\blinear\\b",
+      "files": "*.css",
+      "severity": "warning",
+      "message": "避免 linear 缓动，使用自然缓动曲线",
+      "autofix": false
+    },
+    {
+      "id": "must-have-reduced-motion",
+      "type": "grep-inverse",
+      "pattern": "prefers-reduced-motion",
+      "files": "*.css",
+      "severity": "fatal",
+      "message": "必须提供 prefers-reduced-motion: reduce 降级方案",
+      "autofix": false
+    },
+    {
+      "id": "no-bare-zindex-in-animation",
+      "type": "grep",
+      "pattern": "z-index:\\s*\\d+",
+      "files": "*.css",
+      "severity": "fatal",
+      "message": "动效相关组件禁止裸 z-index，使用 CSS 变量",
+      "autofix": {
+        "map": {
+          "9999": "var(--z-debug)",
+          "999": "var(--z-notification)",
+          "500": "var(--z-modal)",
+          "200": "var(--z-dropdown)",
+          "100": "var(--z-sticky)",
+          "50": "var(--z-raised)",
+          "10": "var(--z-overlay)"
+        }
+      }
+    },
+    {
+      "id": "no-bare-duration",
+      "type": "grep",
+      "pattern": "(?:transition|animation)-duration:\\s*\\d+ms",
+      "files": "*.css",
+      "severity": "warning",
+      "message": "动效时长应使用 CSS 变量，非裸值（如 var(--duration-normal)）",
+      "autofix": false
+    },
+    {
+      "id": "stagger-under-50ms",
+      "type": "grep",
+      "pattern": "stagger:\\s*(0\\.0[0-4]\\d*)\\b",
+      "files": "*.{ts,tsx,js,jsx}",
+      "severity": "suggestion",
+      "message": "stagger 值建议在 0.05-0.12 之间，过快或过慢影响体验"
+    },
+    {
+      "id": "no-gsap-to-width-height",
+      "type": "grep",
+      "pattern": "gsap\\.(to|from|fromTo)\\s*\\([^)]*\\b(width|height|top|left)\\s*:",
+      "files": "*.{ts,tsx,js,jsx}",
+      "severity": "fatal",
+      "message": "GSAP 禁止动画 width/height/top/left，使用 transform 替代",
+      "autofix": false
+    },
+    {
+      "id": "use-gsap-context-in-react",
+      "type": "grep-inverse",
+      "pattern": "gsap\\.context|useGSAP",
+      "files": "*.{tsx,jsx}",
+      "severity": "warning",
+      "message": "React 组件中的 GSAP 动画应使用 useGSAP() 或 gsap.context() 以便清理"
+    },
+    {
+      "id": "no-unregistered-plugin",
+      "type": "grep",
+      "pattern": "ScrollTrigger|DrawSVG|MorphSVG|Flip|Draggable|SplitText",
+      "files": "*.{ts,tsx,js,jsx}",
+      "severity": "warning",
+      "message": "使用 GSAP 插件前必须先 gsap.registerPlugin()",
+      "autofix": false
+    },
+    {
+      "id": "duration-within-range",
+      "type": "grep",
+      "pattern": "duration:\\s*[3-9]\\d{2,}",
+      "files": "*.{ts,tsx,js,jsx}",
+      "severity": "warning",
+      "message": "UI 动效不建议超过 3000ms，用户会感知到延迟"
+    },
+    {
+      "id": "no-simultaneous-scrolltrigger-refresh",
+      "type": "grep",
+      "pattern": "ScrollTrigger\\.refresh\\(\\)",
+      "files": "*.{ts,tsx,js,jsx}",
+      "severity": "suggestion",
+      "message": "避免频繁调用 ScrollTrigger.refresh()，考虑防抖"
+    },
+    {
+      "id": "gsap-timeline-defaults",
+      "type": "grep-inverse",
+      "pattern": "defaults:\\s*\\{",
+      "files": "*.{ts,tsx,js,jsx}",
+      "severity": "suggestion",
+      "message": "GSAP timeline 建议设置 defaults: { ease: '...' } 统一缓动"
+    },
+    {
+      "id": "no-overlap-import-without-register",
+      "type": "grep",
+      "pattern": "import\\s+.*\\s+from\\s+['\"]gsap/(?:ScrollTrigger|DrawSVG|MorphSVG|Flip|Draggable)",
+      "files": "*.{ts,tsx,js,jsx}",
+      "severity": "fatal",
+      "message": "GSAP 插件导入后必须在同一文件中 registerPlugin"
+    },
+    {
+      "id": "use-matchmedia-mobile",
+      "type": "grep-inverse",
+      "pattern": "matchMedia|ScrollTrigger\\.matchMedia",
+      "files": "*.{ts,tsx,js,jsx}",
+      "severity": "suggestion",
+      "message": "移动端动效应使用 ScrollTrigger.matchMedia() 做响应式降级"
+    },
+    {
+      "id": "no-dom-selector-in-gsap",
+      "type": "grep",
+      "pattern": "gsap\\.(to|from|fromTo)\\s*\\(\\s*['\"][.#]",
+      "files": "*.{tsx,jsx}",
+      "severity": "warning",
+      "message": "React 中避免 GSAP 直接使用 DOM 选择器，使用 ref"
+    },
+    {
+      "id": "cleanup-will-change",
+      "type": "grep",
+      "pattern": "will-change:\\s*transform",
+      "files": "*.css",
+      "severity": "suggestion",
+      "message": "动画结束后应清除 will-change，避免持续占用 GPU 内存"
+    },
+    {
+      "id": "no-px-based-animation",
+      "type": "grep",
+      "pattern": "(?:x|y|translateX|translateY):\\s*['\"]?\\d+px",
+      "files": "*.{ts,tsx,js,jsx,css}",
+      "severity": "suggestion",
+      "message": "避免使用 px 做位移动画，使用相对单位或视口单位"
+    },
+    {
+      "id": "no-hardware-accelerated-everything",
+      "type": "grep",
+      "pattern": "will-change:\\s*(transform|opacity)\\s*;",
+      "files": "*.css",
+      "severity": "warning",
+      "message": "不要给大量元素统一加 will-change，只在需要动画的元素上按需启用"
+    },
+    {
+      "id": "use-opacity-not-visibility",
+      "type": "grep",
+      "pattern": "visibility:\\s*(hidden|visible)",
+      "files": "*.css",
+      "severity": "suggestion",
+      "message": "动画切换显隐时用 opacity + pointer-events，不用 visibility（不支持过渡）"
+    },
+    {
+      "id": "no-css-animation-with-gsap",
+      "type": "grep",
+      "pattern": "animation:\\s*\\w+",
+      "files": "*.css",
+      "severity": "suggestion",
+      "message": "用 GSAP 管理动画时避免混用 CSS animation，防止冲突"
+    },
+    {
+      "id": "will-change-on-animate-only",
+      "type": "grep",
+      "pattern": "will-change:",
+      "files": "*.css",
+      "severity": "suggestion",
+      "message": "will-change 应在动画前设置、动画后清除，不应常驻在元素上"
+    },
+    {
+      "id": "no-concurrent-gsap-on-same-prop",
+      "type": "grep",
+      "pattern": "gsap\\.to\\([^)]+\\{[^}]*\\b(x|y|scale|rotation|opacity)\\b",
+      "files": "*.{ts,tsx,js,jsx}",
+      "severity": "warning",
+      "message": "多次 gsap.to 操作同一属性可能冲突，使用 timeline 或 overwrite: true"
+    },
+    {
+      "id": "scrolltrigger-has-markers-off",
+      "type": "grep",
+      "pattern": "markers:\\s*true",
+      "files": "*.{ts,tsx,js,jsx}",
+      "severity": "fatal",
+      "message": "生产代码中 ScrollTrigger markers 必须设为 false 或删除该行",
+      "autofix": {
+        "search": "markers:\\s*true",
+        "replace": "markers: false"
+      }
+    },
+    {
+      "id": "performance-audit-after-animation",
+      "type": "grep-inverse",
+      "pattern": "gsap\\.ticker\\.fps|performance\\.now",
+      "files": "*.{ts,tsx,js,jsx}",
+      "severity": "suggestion",
+      "message": "完成复杂动画后建议跑一次性能审计（fps 检查、内存泄漏检测）"
+    }
+  ]
+}
