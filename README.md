@@ -3,9 +3,12 @@
 两层架构的 Claude Code 技能包：**Project Foundation** 管项目从 0 到 1，**Skills Pack** 管日常开发从 1 到 N。
 
 [![Stars](https://img.shields.io/github/stars/Leo-Ayh-Oday/project-factory?style=social)](https://github.com/Leo-Ayh-Oday/project-factory/stargazers)
+[![Version](https://img.shields.io/badge/version-1.0.0-blue)](https://github.com/Leo-Ayh-Oday/project-factory/releases)
 [![License](https://img.shields.io/badge/license-MIT-purple)](LICENSE)
 [![Skills](https://img.shields.io/badge/skills-12-blue)](skills/)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen)](CONTRIBUTING_CN.md)
+
+**Topics:** `claude-code` `skills-pack` `project-factory` `openwolf` `ai-tools` `developer-tools` `claude-skills` `project-management` `knowledge-base` `obsidian` `markitdown`
 
 ## 架构总览
 
